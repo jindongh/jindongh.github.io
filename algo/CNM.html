@@ -1,0 +1,102 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="header">
+    <div class="home left">
+        <a href="/" title="Home">Home</a>
+    </div>
+    <div class="nav right">
+        <a href="/algo">Algorithm</a>
+        <a href="/proj">Project</a>
+        <a href="/util">Utilities</a>
+        <a href="/code">Code</a>
+        <a href="/book">Book</a>
+        <a href="/android">Android</a>
+        <a href="/about">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>Algorithm/CNM</h1>
+    <div>
+        <h2>Question</h2>
+        <p>There is an int array[N], select some elements from the array, which makes a summary of M, how many combinations are there?</p>
+        <p>eg: an array of [1, 3, 4, 7], M=11, there are two combinations: [1,3,7] and [4,7]</p>
+    </div>
+    <div>
+        <h2>Solution 1:O(2**N)</h2>
+        <p>Methodology: permutations and combinations</p>
+        <p>there are C(N,1)+C(N,2)+C(N,i)+C(N,N) kinds of combinations of the elements, just iterate the combinations and verify them</p>
+        <p><b>Trick:<a href=/algo/combinations.html">methods to iterate combinations</a></b></p>
+        <pre><code>
+int intput[N];
+int sum = 1<<N;
+int result = 0;
+for(int i=0; i<sum; i++){
+    int temp = 0;
+    for(int j=0; j<N; j++){
+        if(0 != (i&(1<<j))){
+            temp += input[j];
+        }
+    }
+    if(temp == M){
+        result ++;
+    }
+}
+cout<<result<<endl;
+        </code></pre>
+    </div>
+    <div>
+        <h2>Solution 2:O(N^2)</h2>
+        <p>Methodology: dynamic programming</p>
+        <p>eg:input=[1,3,4,7], M=11</p>
+        <ol>
+            <li>result = {}</li>
+            <li>result = {1:1}</li>
+            <li>result = {1:1, 4:1, 3:1}</li>
+            <li>result = {1:1, 4:2, 3:1, 5:1, 7:1}</li>
+            <li>result = {1:1, 4:2, 3:1, 5:1, 7:2, 8:1, 11:2, 10:1, 12:1, 14:1}</li>
+        </ol>
+        <p> result[11] = 2 </p>
+        <pre><code>
+int input[N];
+map<int, int> result;
+map<int,int>::iterator found;
+for(int i=0; i<N; i++){
+    for(map<int,int>::iterator it=result.begin(); it!=result.end(); it++){
+        int tmp = it->first + input[i];
+        found = result.find(tmp);
+        if(found == result.end()){
+            result[tmp] = 1;
+        }
+        else{
+            result[tmp] = 1 + found->second;
+        }
+    }
+    found = result.find(input[i]);
+    if(found == result.end()){
+        result[input[i]] = 1;
+    }
+    else{
+        result[input[i]] = 1 + found->second;
+    }
+}
+found = result.find(M);
+if(found == result.end()){
+    cout<<0<<endl;
+}
+else{
+    cout<<found->second<<endl;
+}
+        </code></pre>
+    </div>
+</div>
+
+<link type="text/css" href="/css/default.css" rel="stylesheet" />
+<link type="text/css" href="/css/prettify.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+</body>
+</html>
