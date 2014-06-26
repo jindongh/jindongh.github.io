@@ -30,14 +30,14 @@
         <p>Methodology: permutations and combinations</p>
         <p>there are C(N,1)+C(N,2)+C(N,i)+C(N,N) kinds of combinations of the elements, just iterate the combinations and verify them</p>
         <p><b>Trick:<a href=/algo/combinations.html">methods to iterate combinations</a></b></p>
-        <pre><code>
+        <pre class="prettyprint linenums">
 int intput[N];
-int sum = 1&lt;&lt;N;
+int sum = 1 << N;
 int result = 0;
-for(int i=0; i<sum; i++){
+for(int i = 0; i < sum; i ++){
     int temp = 0;
-    for(int j=0; j<N; j++){
-        if(0 != (i&(1&lt;&lt;j))){
+    for(int j = 0; j < N; j++){
+        if(0 != (i & (1 << j))){
             temp += input[j];
         }
     }
@@ -45,8 +45,8 @@ for(int i=0; i<sum; i++){
         result ++;
     }
 }
-cout&lt;&lt;result&lt;&lt;endl;
-        </code></pre>
+cout << result << endl;
+        </pre>
     </div>
     <div>
         <h2>Solution 2:O(N^2)</h2>
@@ -60,12 +60,12 @@ cout&lt;&lt;result&lt;&lt;endl;
             <li>result = {1:1, 4:2, 3:1, 5:1, 7:2, 8:1, 11:2, 10:1, 12:1, 14:1}</li>
         </ol>
         <p> result[11] = 2 </p>
-        <pre><code>
+        <pre class="prettyprint linenums">
 int input[N];
-map<int, int> result;
-map<int,int>::iterator found;
-for(int i=0; i<N; i++){
-    for(map<int,int>::iterator it=result.begin(); it!=result.end(); it++){
+map< int, int > result;
+map< int,int >::iterator found;
+for(int i = 0; i < N; i ++){
+    for(map< int,int >::iterator it = result.begin(); it != result.end(); it ++){
         int tmp = it->first + input[i];
         found = result.find(tmp);
         if(found == result.end()){
@@ -85,12 +85,12 @@ for(int i=0; i<N; i++){
 }
 found = result.find(M);
 if(found == result.end()){
-    cout&lt;&lt;0&lt;&lt;endl;
+    cout << 0 << endl;
 }
 else{
-    cout&lt;&lt;found->second&lt;&lt;endl;
+    cout << found->second << endl;
 }
-        </code></pre>
+        </pre>
     </div>
 </div>
 
