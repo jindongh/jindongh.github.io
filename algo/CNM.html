@@ -30,7 +30,7 @@
         <p>Methodology: permutations and combinations</p>
         <p>there are C(N,1)+C(N,2)+C(N,i)+C(N,N) kinds of combinations of the elements, just iterate the combinations and verify them</p>
         <p><b>Trick:<a href=/algo/combinations.html">methods to iterate combinations</a></b></p>
-        <code>
+        <pre><code>
 int intput[N];
 int sum = 1&lt;&lt;N;
 int result = 0;
@@ -46,7 +46,7 @@ for(int i=0; i<sum; i++){
     }
 }
 cout&lt;&lt;result&lt;&lt;endl;
-        </code>
+        </code></pre>
     </div>
     <div>
         <h2>Solution 2:O(N^2)</h2>
@@ -60,7 +60,7 @@ cout&lt;&lt;result&lt;&lt;endl;
             <li>result = {1:1, 4:2, 3:1, 5:1, 7:2, 8:1, 11:2, 10:1, 12:1, 14:1}</li>
         </ol>
         <p> result[11] = 2 </p>
-        <code>
+        <pre><code>
 int input[N];
 map<int, int> result;
 map<int,int>::iterator found;
@@ -90,7 +90,7 @@ if(found == result.end()){
 else{
     cout&lt;&lt;found->second&lt;&lt;endl;
 }
-        </code>
+        </code></pre>
     </div>
 </div>
 
