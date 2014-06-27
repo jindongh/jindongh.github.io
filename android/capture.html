@@ -1,0 +1,59 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="header">
+    <div class="home left">
+        <a href="/" title="Home">Home</a>
+    </div>
+    <div class="nav right">
+        <a href="/algo">Algorithm</a> |
+        <a href="/util">Utilities</a> |
+        <a href="/help">Lessons</a> |
+        <a href="/code">Code</a> |
+        <a href="/book">Book</a> |
+        <a href="/android">Android</a> |
+        <a href="/about">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>Capture network package of android</h1>
+    <div>
+        <h2>Step 1: prepare tools</h2>
+        <p>Download adb from <a href="https://dl.google.com/android/adt/22.6.2/adt-bundle-windows-x86_64-20140321.zip">Here</a></p>
+
+        <p>Download tcpdump from <a href="http://www.strazzere.com/android/tcpdump">Here</a></p>
+        <p>Upload tcpdump with cmd</p>
+        <pre class="prettyprint linenums">
+cd D:\software\adt-bundle-windows-x86_64-20140321\sdk\platform-tools
+adb push tcpdump /data/local/tcpdump
+adb shell
+# chmod 777 /data/local/tcpdump
+# su
+$ /data/local/tcpdump -p -vv -s 0 -w /sdcard/capture.pcap
+        </pre>
+    </div>
+    <div>
+        <h2>Step 2: Capture Data</h2>
+        <p>open android and do the network related operation</p>
+        <p>after the operation, Ctrl+C to stop the tcpdump, and download the capture data with cmd </p>
+        <pre class="prettyprint linenums">
+adb pull /sdcard/capture.pcap D:/
+        </pre>
+    </div>
+    <div>
+        <h3>Step 3: Analyze Data and Simulate</h2>
+        <p>Using <a href="http://www.wireshark.org/">Wireshark</a> to analyze the data</p>
+        <p>Using urllib2/socket to simulate the package</p>
+    </div>
+
+</div>
+
+<link type="text/css" href="/css/default.css" rel="stylesheet" />
+<link type="text/css" href="/css/prettify.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+</body>
+</html>

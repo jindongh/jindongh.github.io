@@ -1,0 +1,48 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="header">
+    <div class="home left">
+        <a href="/" title="Home">Home</a>
+    </div>
+    <div class="nav right">
+        <a href="/algo">Algorithm</a> |
+        <a href="/util">Utilities</a> |
+        <a href="/help">Lessons</a> |
+        <a href="/code">Code</a> |
+        <a href="/book">Book</a> |
+        <a href="/android">Android</a> |
+        <a href="/about">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>How to revert and android application(apk) to got its source code etc</h1>
+    <div>
+        <h2>Step1: extract apk to folder, get resources and dex file</h2>
+        <p>Just use winrar etc to open the apk file is ok</p>
+    </div>
+    <div>
+        <h2>Step2: convert from dex to jar file</h2>
+        <p>download tool from <a href="https://code.google.com/p/dex2jar/downloads/list">Here</a></p>
+        <p>convert dex to jar with command </p>
+        <pre class="prettyprint linenus">
+dex2jar classes.dex
+        </pre>
+    </div>
+    <div>
+        <h2>Step3: decompress jar to got the source code</h2>
+        <p>download tool from <a href="http://jd.benow.ca/">Here</a></p>
+        <p>decompress the jar with the jui</p> 
+    </div>
+
+</div>
+
+<link type="text/css" href="/css/default.css" rel="stylesheet" />
+<link type="text/css" href="/css/prettify.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="header">
+    <div class="home left">
+        <a href="/" title="Home">Home</a>
+    </div>
+    <div class="nav right">
+        <a href="/algo">Algorithm</a> |
+        <a href="/util">Utilities</a> |
+        <a href="/help">Lessons</a> |
+        <a href="/code">Code</a> |
+        <a href="/book">Book</a> |
+        <a href="/android">Android</a> |
+        <a href="/about">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>Mokee Usage and Tips Samsung SC-03E</h1>
+    <div>
+        <h2>Install Mokee on sc-03e Step1: install custom recovery</h2>
+        <ul>
+            <li>download Odin3 from <a href="/download/Odin3.rar">Here</a></li>
+            <li>download recovery 6.0.2.9 from <a href="/download/recovery-6.0.2.9-sc03e.tar">Here</a></li>
+            <li>Connect phone to Windows with USB</li>
+            <li>Press <Volume Down>Key(downside of left side), <Power> Key(right side) and <Home>Key(bottom) at the same time until the phone reboot, and then release</li>
+            <li>Press <Volume Up> Key(upside of left side) once to enter flush mode</li>
+            <li>extrace odin3.rar to a folder, and run Odin3.exe</li>
+            <li>Click PDA button on Odin3 and select recovery-6.0.2.9-sc03e.tar downloaded</li>
+            <li>Click Start button on Odin3 to beginn flush recovery</li>
+            <li>OK</li>
+        </ul>
+    </div>
+    <div>
+        <h2>Install Mokee on sc-03e Step2: install custom recovery</h2>
+        <ul>
+            <li>download recovery_CWM_6.0.4.5.zip from <a href="/download/recovery_CWM_6.0.4.5.zip">Here</a></li>
+            <li>download sc03e_root.zip from <a href="/download/sc03e_root.zip">Here</a></li>
+            <li>download mokee from <a href="http://download.mokeedev.com/?device=sc03e">Here</a></li>
+            <li>copy the downloaded recovery_CWM_6.0.4.5.zip, sc03e_root.zip, and mokee rom to the phone with USB</li> 
+            <li>Press <Volume Up>Key(upside of left side), <Power> Key(right side) and <Home>Key(bottom) at the same time until the phone reboot, and then release buttons</li>
+            <li>using <Volumn Up> and <Volumn Down> to select install zip, then using <Powner> button to enter</li>
+            <li>select choose zip from /sdcard and enter</li>
+            <li>select the recovery_CWM_6.0.4.5.zip and enter</li>
+            <li>select Yes- Install</li>
+            <li>after install, reboot the machine</li>
+        </ul>
+    </div>
+    <div>
+        <h2>Install Mokee on sc-03e Step3: root</h2>
+            <li>Press <Volume Up>Key(upside of left side), <Power> Key(right side) and <Home>Key(bottom) at the same time until the phone reboot, and then release buttons</li>
+            <li>using <Volumn Up> and <Volumn Down> to select install zip, then using <Powner> button to enter</li>
+            <li>select choose zip from /sdcard and enter</li>
+            <li>select the sc03e_root.zip and enter</li>
+            <li>select Yes- Install</li>
+            <li>after install, reboot the machine, and it is ok</li>
+        </ul>
+    </div>
+    <div>
+        <h2>Install Mokee on sc-03e Step4: install mokee</h2>
+            <li>Press <Volume Up>Key(upside of left side), <Power> Key(right side) and <Home>Key(bottom) at the same time until the phone reboot, and then release buttons</li>
+            <li>using <Volumn Up> and <Volumn Down> to select install zip, then using <Powner> button to enter</li>
+            <li>select choose zip from /sdcard and enter</li>
+            <li>select the mokee zip and enter</li>
+            <li>select Yes- Install</li>
+            <li>after install, reboot the machine, and it is ok</li>
+        </ul>
+    </div>
+
+    <div>
+        <h2>Tip 1:mokee install Error: This package is for m3,m3xx,sc03e,SC-03E,GT-I9305,i9305 devices; this is a <b>SC03E</b></h2>
+        <p>Solution: open the mokee rom MK44.2-sc03e.zip\META-INF\com\google\android\updater-script and remove the first lines:</p>
+        <pre class="prettyprint linenums">
+assert(getprop("ro.product.device") == "m3" || getprop("ro.build.product") == "m3" || 
+       getprop("ro.product.device") == "m3xx" || getprop("ro.build.product") == "m3xx" || 
+       getprop("ro.product.device") == "sc03e" || getprop("ro.build.product") == "sc03e" || 
+       getprop("ro.product.device") == "SC-03E" || getprop("ro.build.product") == "SC-03E" || 
+       getprop("ro.product.device") == "GT-I9305" || getprop("ro.build.product") == "GT-I9305" || 
+       getprop("ro.product.device") == "i9305" || getprop("ro.build.product") == "i9305" || abort("This package is for \"m3,m3xx,sc03e,SC-03E,GT-I9305,i9305\" devices; this is a \"" + getprop("ro.product.device") + "\"."););
+        </pre>
+        <p>and then remove the file MK44.2-sc03e.zip\META_INF\CERT.SF and META_INF\CERT.RSA</p>
+        <p>Using <a href="/download/APKSign.rar">APKSign</a> to resign the zip</p>
+        <p>copy the zip file back to phone, and retry to install with recovery</p>
+    </div>
+    <div>
+        <h2>Tip 2:mokee upgrade Error: Versions mismatch...</h2>
+        <p>Solution: upgrade the old updates before update the latest, it is increasingly upgrade so it is wrong to upgrade without older version</p>
+    </div>
+</div>
+
+<link type="text/css" href="/css/default.css" rel="stylesheet" />
+<link type="text/css" href="/css/prettify.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+</body>
+</html>
