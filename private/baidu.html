@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="header">
+    <div class="home left">
+        <a href="/" title="Home">Home</a>
+    </div>
+    <div class="nav right">
+        <a href="/algo">Algorithm</a> |
+        <a href="/util">Utilities</a> |
+        <a href="/help">Lessons</a> |
+        <a href="/code">Code</a> |
+        <a href="/book">Book</a> |
+        <a href="/android">Android</a> |
+        <a href="/about">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>History</h1>
+    <div>
+        <h2>Project</h2>
+        <div>
+            <h3>2013/1-2014/7: General Cluster Management</h3>
+            <p>Description: general cluster management, including resource manage, service deploy and naming service</p>
+            <p>Memebers:5</p>
+            <p>Responsibility: system design, implement of service deploy and upgrading subsystem</p>
+        </div>
+        <div>
+            <h3>2012/2-2013/1: Basic Search Cluster Management</h3>
+            <p>Description: a cluster management system for basic search</p>
+            <p>Members:3</p>
+            <p>Responsibility: design and implement the console management cli and related scripts based on zookeeper</p>
+        </div>
+        <div>
+            <h3>2011/5-2012/1: Term-Based Index Search</h3>
+            <p>Description: develoy term-based index search engine</p>
+            <p>Members:3
+            <p>Responsibility: design and implement an adapter to join the exist system, design and implement the data locating system based on zookeeper</p>
+        </div>
+        <div>
+            <h3>3011/4-2011/5: Concurrent Transfer Index and Serving Search</h3>
+            <p>Description: research on ssd and flash's feature to figure out to make search service's read of ssd not affected by writing new index of ssd</p>
+            <p>Memebers:1</p>
+            <p>Responsibility: research on varies ssd and flash, implement a direct-io and restricted speed limit hdfs transfer tool</p>
+            <ul>
+                <li>Cancel RAID: avoid raid consume</li>
+                <li>using directio: avoid system cache expire</li>
+                <li>use stricted speedlimit: not average speed of seconds, but how long to sleep after each write<li>
+                <li>using pv to limit speed of md5sum </li>
+            </ul>
+        </div>
+        <div>
+            <h3>2011/3-2011/4: LibHeartBeat</h3>
+            <p>Description: to find unavailable backends quickly and avoid access fail when backend upgrading</p>
+            <p>Members:1</p>
+            <p>Responsibility: design and implement a library for detecting alive of backend</p>
+            <ul>
+                <li>Naming: worker has address list of backends, and send register msg which includes selfaddress to backends</li>
+                <li>Detect: backends send reports to worker repeatedly</li>
+                <li>Discovery: if the worker has not received a backend in 3 cycle, set it offline</li>
+                <li>Restore: the work send register repeatedly to unavailable backends</li>
+                <li>Appendix: worker or backends send unregister to each other before stop service</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Other</h3>
+            <p>zkcli</p>
+        </div>
+    </div>
+    <div>
+        <h2>Level</h2>
+        <table>
+            <tr><td>Start</td><td>End</td><td>Department</td><td>Manager</td><td>Email</td><td>Job</td><td>Band</td><td>Level</td></tr>
+            <tr><td>2014-04-01</td><td>2014-07-14</td><td>PS</td><td>CenKetie</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band5</td><td>T6</td></tr>
+            <tr><td>2014-03-31</td><td>2014-03-31</td><td>PS</td><td>CenKetie</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band4</td><td>T5</td></tr>
+            <tr><td>2013-05-15</td><td>2014-03-30</td><td>PS</td><td>LiBoyang</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band4</td><td>T5</td></tr>
+            <tr><td>2013-04-01</td><td>2013-05-14</td><td>PS</td><td>ChenXiaoshuai</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band4</td><td>T5</td></tr>
+            <tr><td>2013-01-06</td><td>2013-03-31</td><td>PS</td><td>ChenXiaoshuai</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band4</td><td>T4</td></tr>
+            <tr><td>2011-11-22</td><td>2013-01-05</td><td>PS</td><td>XuJiming</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band4</td><td>T4</td></tr>
+            <tr><td>2011-09-29</td><td>2011-11-21</td><td>PS</td><td>XuJiming</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band3</td><td>T3</td></tr>
+            <tr><td>2011-09-01</td><td>2011-09-28</td><td>PS</td><td>XuJiming</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band3</td><td>T3</td></tr>
+            <tr><td>2011-03-25</td><td>2011-08-31</td><td>PS</td><td>LiuLiping</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band3</td><td>T3</td></tr>
+            <tr><td>2011-03-01</td><td>2011-03-24</td><td>PS</td><td>LiuLiping</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Band3</td><td>T3</td></tr>
+            <tr><td>2011-02-16</td><td>2011-02-28</td><td>PS</td><td>LiuLiping</td><td>huangjindong@baidu.com</td><td>Worker</td><td>Intern</td><td>Inern</td></tr>
+        </table>
+    </div>
+    <div>
+        <h2>Other</h2>
+        <p>Note: month * 14.6</p>
+        <p>2011-3: 15k</p>
+        <p>2012-4: *1.15</p>
+        <p>2013-4: *1.18+Option</p>
+        <p>2014-4: *1.3</p>
+    </div>
+
+</div>
+
+<link type="text/css" href="/css/default.css" rel="stylesheet" />
+<link type="text/css" href="/css/prettify.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+</body>
+</html>
