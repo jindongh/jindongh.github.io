@@ -28,7 +28,7 @@ sudo apt-get install nginx
 </pre>
         <p>Configure nginx to support multi server</p>
 <pre class="prettyprint linenums">
-cat > /etc/nginx/sites-available/www.conf <<EOF
+cat > /etc/nginx/sites-available/www.conf << EOF
     server {
         listen 80;
         server_name www.hankjohn.net;
@@ -48,7 +48,7 @@ cat > /etc/nginx/sites-available/www.conf <<EOF
 }
 EOF
 ln -s /etc/nginx/sites-available/www.conf /etc/nginx/sites-enabled/
-cat > /etc/nginx/sites-available/code.conf <<EOF
+cat > /etc/nginx/sites-available/code.conf << EOF
     server {
         listen 80;
         server_name code.hankjohn.net;
