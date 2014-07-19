@@ -1,0 +1,92 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="header">
+    <div class="home left">
+        <a href="/" title="Home">Home</a>
+    </div>
+    <div class="nav right">
+        <a href="/algo">Algorithm</a>
+        <a href="/proj">Project</a>
+        <a href="/util">Utilities</a>
+        <a href="/code">Code</a>
+        <a href="/book">Book</a>
+        <a href="/android">Android</a>
+        <a href="/about">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>How to run multi domans in the same ip and port</h1>
+    <div>
+        <h2>Nginx:</h2>
+        <p>Install nginx with apt-get</p>
+<pre class="prettyprint linenums">
+sudo apt-get install nginx
+</pre>
+        <p>Configure nginx to support multi server</p>
+<pre class="prettyprint linenums">
+cat > /etc/nginx/sites-available/www.conf <<EOF
+    server {
+        listen 80;
+        server_name www.hankjohn.net;
+        location / {
+            fastcgi_pass 127.0.0.1:8081;
+            fastcgi_param PATH_INFO $fastcgi_script_name;
+            fastcgi_param REQUEST_METHOD $request_method;
+            fastcgi_param QUERY_STRING $query_string;
+            fastcgi_param SERVER_NAME $server_name;
+            fastcgi_param SERVER_PORT $server_port;
+            fastcgi_param SERVER_PROTOCOL $server_protocol;
+            fastcgi_param CONTENT_TYPE $content_type;
+            fastcgi_param CONTENT_LENGTH $content_length;
+            fastcgi_pass_header Authorization;
+            fastcgi_intercept_errors off;
+        }
+}
+EOF
+ln -s /etc/nginx/sites-available/www.conf /etc/nginx/sites-enabled/
+cat > /etc/nginx/sites-available/code.conf <<EOF
+    server {
+        listen 80;
+        server_name code.hankjohn.net;
+        location / {
+            fastcgi_pass 127.0.0.1:8082;
+            fastcgi_param PATH_INFO $fastcgi_script_name;
+            fastcgi_param REQUEST_METHOD $request_method;
+            fastcgi_param QUERY_STRING $query_string;
+            fastcgi_param SERVER_NAME $server_name;
+            fastcgi_param SERVER_PORT $server_port;
+            fastcgi_param SERVER_PROTOCOL $server_protocol;
+            fastcgi_param CONTENT_TYPE $content_type;
+            fastcgi_param CONTENT_LENGTH $content_length;
+            fastcgi_pass_header Authorization;
+            fastcgi_intercept_errors off;
+        }
+}
+EOF
+ln -s /etc/nginx/sites-available/code.conf /etc/nginx/sites-enabled/
+sudo service nginx restart
+</pre>
+    </div>
+    <div>
+        <h2>start django to supply www and code service</h2>
+        <p>start the specific cgi service</p>
+<pre class="prettyprint linenums">
+sudo apt-get install python-flup
+cd /path/django/www/
+python manage.py runfcgi method=threaded host=127.0.0.1 port=8081
+cd /path/django/code
+python manage.py runfcgi method=threaded host=127.0.0.1 port=8082
+</pre>
+    </div>
+</div>
+
+<link type="text/css" href="/css/default.css" rel="stylesheet" />
+<link type="text/css" href="/css/prettify.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+</body>
+</html>
