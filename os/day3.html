@@ -19,16 +19,16 @@
 </div>
 
 <div class="content">
-    <h1>Day 2: Makefile</h1>
+    <h1>Day 3: Load from Disk</h1>
     <div>
         <h2></h2>
-        <p>分离启动区和磁盘，以后可以用C语言写启动区，然后写入磁盘</p>
+        <p>使用IPL加载软盘，然后运行软盘代码</p>
     </div>
     <div>
-        <h2>生成磁盘镜像</h2>
+        <h2>IPL</h2>
 <pre class="prettyprint linenums">
-; hello-os
 ; TAB=4
+CYLS    EQU     10
     ORG     0x7c00      ; 指明程序的装载地址
 ; 以下的记述用于标准FAT12格式的软盘
     JMP     entry
@@ -57,8 +57,55 @@ entry:
     MOV     SS,AX
     MOV     SP,0x7c00
     MOV     DS,AX
+;读磁盘
+    MOV     AX,0x0820
     MOV     ES,AX
-    MOV     SI,msg
+    MOV     CH,0 ;柱面0
+    MOV     DH,0
+    MOV     CL,2
+readloop:
+    MOV     SI,0 ;记录失败次数的寄存器 
+retry:
+    MOV     AH,0x02
+    MOV     AL,1
+    MOV     BX,0
+    MOV     DL,0x00 ; A驱动器
+    INT     0x13 ; 调用磁盘BIOS
+    JNC     next ; 没出错时跳转到next
+
+    ADD     SI,1 ; 往SI加1 3
+    CMP     SI,5 ; 比较SI与5
+    JAE     error2 ; SI >= 5时，跳转到error
+    MOV     AH,0x00
+    MOV     DL,0x00 ; A驱动器
+    INT 0x13 ; 重置驱动器
+    JMP retry
+next:
+    MOV AX,ES
+    ADD AX,0x0020
+    MOV ES,AX
+    ADD CL,1
+    CMP CL,18
+    JBE readloop
+    MOV CL,1
+    ADD DH,1
+    CMP DH,2
+    JB readloop
+    MOV DH,0
+    ADD CH,1
+    CMP CH,CYLS
+    JB readloop
+    MOV [0x0ff0],CH
+    JMP 0xc600
+error1:
+    MOV     SI,msg1
+    JMP     putloop
+error2:
+    MOV     SI,msg2
+    JMP     putloop
+error3:
+    MOV     SI,msg3
+    JMP     putloop
 putloop:
     MOV     AL,[SI]
     ADD     SI,1    ;  给SI加1
@@ -69,94 +116,64 @@ putloop:
     INT     0x10    ; 调用显卡BIOS
     JMP     putloop
 fin:
-    HLT         ; 让CPU停止，等待指令
-    JMP     fin     ; 无限循环
-msg:
+    HLT
+    JMP     fin
+msg1:
     DB      0x0a, 0x0a  ; 换行2次
-    DB      "hello, world v3"
+    DB      "load, error"
     DB      0x0a    ; 换行
+    DB      0
+msg2:
+    DB      0x0a,0x0a
+    DB      "load error2"
+    DB      0x0a
+    DB      0
+msg3:
+    DB      0x0a,0x0a
+    DB      "load error 3"
+    DB      0x0a
     DB      0
     RESB    0x1fe-($-$$) ; 填写0x00,直到 0x001fe
     DB      0x55, 0xaa
-; 以下是启动区以外部分的输出
-    DB      0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
-    RESB    4600
-    DB      0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
-    RESB    1469432
         </pre>
-        <p>编译运行</p>
+        <p>编译</p>
 <pre class="prettyprint linenums">
-nasm hellov3.asm -o hellov3.img
-qemu-system-x86_64 hellov3.img
+nasm day3-1.asm -o day3-1.bin
         </pre>
         <p>运行结果</p>
         <img src="/image/os/day2-img.png"/>
     </div>
     <div>
-        <h2>512的引导区</h2>
+        <h2>boot</h2>
 <pre class="prettyprint linenums">
-; hello-os
-; TAB=4
-    ORG     0x7c00      ; 指明程序的装载地址
-; 以下的记述用于标准FAT12格式的软盘
-    JMP     entry
-    DB 0x90
-    DB "HELLOIPL" ; 启动区的名称可以是任意的字符串（8字节）
-    DW 512 ; 每个扇区（sector）的大小（必须为512字节）
-    DB 1 ; 簇（cluster）的大小（必须为1个扇区）
-    DW 1 ; FAT的起始位置（一般从第一个扇区开始）
-    DB 2 ; FAT的个数（必须为2）
-    DW 224 ; 根目录的大小（一般设成224项）
-    DW 2880 ; 该磁盘的大小（必须是2880扇区）
-    DB 0xf0 ; 磁盘的种类（必须是0xf0）
-    DW 9 ; FAT的长度（必须是9扇区）
-    DW 18 ; 1个磁道（track）有几个扇区（必须是18）
-    DW 2 ; 磁头数（必须是2）
-    DD 0 ; 不使用分区，必须是0
-    DD 2880 ; 重写一次磁盘大小
-    DB 0,0,0x29 ; 意义不明，固定
-    DD 0xffffffff ;（可能是）卷标号码
-    DB "HELLO-OS   " ; 磁盘的名称（11字节）
-    DB "FAT12   " ; 磁盘格式名称（8字节）
-    RESB 18 ; 先空出18字节
-; 程序核心
-entry:
-    MOV     AX,0    ;  初始化寄存器
-    MOV     SS,AX
-    MOV     SP,0x7c00
-    MOV     DS,AX
-    MOV     ES,AX
-    MOV     SI,msg
-putloop:
-    MOV     AL,[SI]
-    ADD     SI,1    ;  给SI加1
-    CMP     AL,0
-    JE      fin
-    MOV     AH,0x0e     ; 显示一个文字
-    MOV     BX,15       ; 指定字符颜色
-    INT     0x10    ; 调用显卡BIOS
-    JMP     putloop
+; haribote-os
+    ORG     0xc200          ; 这个程序将要被装载到内存的什么地方呢?
+    MOV     AL,0x13         ; VGA显卡，320x200x8位彩色
+    MOV     AH,0x00
+    INT     0x10
 fin:
-    HLT         ; 让CPU停止，等待指令
-    JMP     fin     ; 无限循环
-msg:
-    DB      0x0a, 0x0a  ; 换行2次
-    DB      "hello, world v3"
-    DB      0x0a    ; 换行
-    DB      0
-    RESB    0x1fe-($-$$) ; 填写0x00,直到 0x001fe
-    DB      0x55, 0xaa
+    HLT
+    JMP fin
         </pre>
         <p>编译运行</p>
 <pre class="prettyprint linenums">
-# create disk or use hellov3.img
-dd if=/dev/zero bs=1024 count=1440 of=sample.img
-nasm ipl.asm -o ipl.img
-dd conv=nottrunc if=ipl.img of=sample.img
-qemu-system-x86_64 sample.img
+nasm boot.asm -o boot.bin
+        </pre>
+    </div>
+    <div>
+        <h2>运行</h2>
+<pre class="prettyprint linenums">
+dd if=/dev/zero bs=1024 count=1440 of=day3.img
+dd conv=notrunc if=day3-1.bin of=day3.img 
+hdiutil mount day3.img
+cp boot.bin /Volume/HELLO-OS
+umount /Volume/HELLO-OS
+qemu-system-x86_64 -fda day3.img
         </pre>
         <p>运行结果</p>
-        <img src="/image/os/day2-ipl.png"/>
+        <img src="/image/os/day3-1.png"/>
+        <p>初次运行出现load error, 因为qemu默认当硬盘执行，加上-fda参数后正常</p>
+        <p>没有黑屏，检查后发现boot.bin在磁盘的位置和书上的不一样，所以将c200改成c600后成功</p>
     </div>
 </div>
 
